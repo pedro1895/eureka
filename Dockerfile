@@ -31,8 +31,9 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 ARG JAR_FILE
-ADD /home/app/target/spring-boot-eureka-1.0.0.jar /app/spring-boot-eureka-1.0.0.jar
-ADD /home/app/src/main/resources/application.properties /app/application.properties
+
+COPY --from=build /home/app/target/spring-boot-eureka-1.0.0.jar /app/spring-boot-eureka-1.0.0.jar
+COPY --from=build /home/app/src/main/resources/application.properties /app/application.properties
 
 EXPOSE 8761
 
