@@ -24,8 +24,17 @@ RUN mvn -f /home/app/pom.xml install
 # Package stage
 #
 FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/spring-boot-eureka-1.0.0.jar /usr/local/lib/spring-boot-eureka-1.0.0.jar
-COPY --from=build /home/app/src/main/resources/application.properties /usr/local/lib/application.properties
+
+#COPY --from=build /home/app/target/spring-boot-eureka-1.0.0.jar /usr/local/lib/spring-boot-eureka-1.0.0.jar
+#COPY --from=build /home/app/src/main/resources/application.properties /usr/local/lib/application.properties
+
+WORKDIR /app
+
+ARG JAR_FILE
+ADD /home/app/target/spring-boot-eureka-1.0.0.jar /app/spring-boot-eureka-1.0.0.jar
+ADD /home/app/src/main/resources/application.properties /app/application.properties
+
 EXPOSE 8761
+
 ENTRYPOINT ["java","-jar","spring-boot-eureka-1.0.0.jar","--spring.config.location=application.properties"]
 
